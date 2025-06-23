@@ -14,31 +14,26 @@
 
 ---
 
-## 🚀 Demo & Arsitektur
+## 🚀 Demo Aplikasi Langsung
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://wbs-pro-streamlit.streamlit.app/">
-        <img src="https://static.streamlit.io/badges/streamlit_badge_blue_light.svg" alt="Tombol Demo Langsung"/>
-        <br>
-        <strong>Coba Aplikasi Langsung</strong>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://mshadianto.github.io/wbs-pro-streamlit/arsitektur.html">
-        <img src="https://img.shields.io/badge/Lihat%20Visualisasi-Arsitektur%20Dinamis-orange.svg?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTEyIDJDNi40OCA MiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDE4Yy00LjQxIDAtOC0zLjU5LTgtOHMzLjU5LTggOC04IDggMy41OSA4IDgtMy41OSA4LTggOHptLTQgLTRoOHYtMkg4djJ6bTAtNGg4di0ySDh2MnoiLz48L3N2Zz4=" alt="Tombol Visualisasi Arsitektur"/>
-        <br>
-        <strong>Lihat Arsitektur Dinamis</strong>
-      </a>
-    </td>
-  </tr>
-</table>
-
-<br>
+Coba langsung aplikasi WBS Pro yang sudah di-deploy! Rasakan pengalaman melaporkan secara aman dan berkomunikasi secara *real-time*.
 
 <div align="center">
-  <img src="https://placehold.co/800x450/f0f2f6/3b82f6?text=Screenshot+Aplikasi+WBS+Pro&font=poppins" alt="Screenshot Aplikasi WBS Pro"/>
+  <a href="https://wbs-pro-streamlit.streamlit.app/">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_blue_light.svg" alt="Tombol Demo Langsung"/>
+  </a>
+</div>
+
+## 🏛️ Visualisasi Arsitektur Dinamis
+
+Untuk memahami bagaimana semua komponen saling terhubung, kami telah membuat visualisasi arsitektur yang interaktif. **Klik gambar di bawah ini** untuk melihat alur data dan logika aplikasi secara dinamis.
+
+<div align="center">
+  <a href="https://mshadianto.github.io/wbs-pro-streamlit/arsitektur.html">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWg0ZzZpY2VwZTNzMHNqNGR4dGZtZzlyZ21obnZzNmdrMmNudjZ1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L4T0nL4E4i4Z4t3p7R/giphy.gif" alt="Animasi Arsitektur Sistem" width="600"/>
+    <br>
+    <p><em>(Klik untuk membuka visualisasi interaktif)</em></p>
+  </a>
 </div>
 
 ---
