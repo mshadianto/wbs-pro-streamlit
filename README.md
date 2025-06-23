@@ -15,6 +15,160 @@
 ---
 
 ## 🚀 Demo Aplikasi Langsung
+Dokumentasi ini menjelaskan arsitektur teknis dan model data yang digunakan dalam aplikasi WBS Pro. Memahami struktur ini penting untuk pengembangan dan pemeliharaan lebih lanjut.
+
+1. Arsitektur Umum
+Aplikasi ini menggunakan arsitektur yang sederhana namun kuat, menggabungkan antarmuka pengguna interaktif dengan database real-time di cloud.
+
+Frontend: Dibangun sepenuhnya menggunakan Streamlit, sebuah framework Python yang memungkinkan pembuatan aplikasi web interaktif dengan cepat.
+
+Backend & Database: Menggunakan Google Firebase Firestore, sebuah database NoSQL yang fleksibel dan real-time. Ini memungkinkan fitur-fitur seperti chat dan pembaruan data langsung tanpa perlu me-refresh halaman.
+
+Deployment: Dihosting di Streamlit Community Cloud, yang terintegrasi langsung dengan repositori GitHub untuk Continuous Deployment.
+
+2. Model Data di Firestore
+Data aplikasi disimpan dalam dua koleksi utama di Firestore: reports dan chats.
+
+a. Koleksi reports
+Koleksi ini menyimpan semua detail dari setiap laporan yang masuk. Setiap dokumen di dalam koleksi ini memiliki ID unik (misalnya, A1B2C3D4) dan berisi data berikut:
+
+{
+  "id": "A1B2C3D4",
+  "nama": "Anonim",
+  "jenis_pelanggaran": "Korupsi",
+  "departemen": "Keuangan",
+  "tanggal": "2025-06-23",
+  "pihak_terlibat": "Manajer Proyek X",
+  "detail": "Terjadi dugaan penggelembungan dana pada proyek...",
+  "bukti": "laporan_keuangan.pdf",
+  "timestamp": "2025-06-23T14:30:00.123Z",
+  "status": "Baru",
+  "risk_score": 85
+}
+
+Field
+
+Tipe Data
+
+Deskripsi
+
+id
+
+string
+
+ID unik 8 karakter yang digenerasi otomatis untuk laporan.
+
+nama
+
+string
+
+Nama pelapor. Berisi "Anonim" jika tidak diisi.
+
+jenis_pelanggaran
+
+string
+
+Kategori pelanggaran yang dipilih dari dropdown.
+
+departemen
+
+string
+
+Departemen atau divisi yang terkait dengan laporan.
+
+tanggal
+
+string
+
+Tanggal perkiraan kejadian (format YYYY-MM-DD).
+
+pihak_terlibat
+
+string
+
+Nama atau jabatan pihak yang diduga terlibat.
+
+detail
+
+string
+
+Uraian lengkap dan kronologi kejadian.
+
+bukti
+
+string
+
+Nama file bukti yang diunggah (jika ada).
+
+timestamp
+
+string
+
+Waktu saat laporan dikirim (format ISO 8601).
+
+status
+
+string
+
+Status investigasi laporan (Baru, Proses, dll).
+
+risk_score
+
+number
+
+Skor risiko (0-100) yang dihitung oleh AI.
+
+b. Koleksi chats
+Koleksi ini dirancang untuk fitur komunikasi real-time. Setiap laporan memiliki satu dokumen di koleksi ini, yang kemudian berisi sub-koleksi untuk pesan-pesannya.
+
+Struktur: chats/{report_id}/messages/{message_id}
+
+Dokumen chats/{report_id}: Bertindak sebagai kontainer untuk ruang obrolan. ID dokumennya sama dengan id laporan terkait.
+
+Sub-koleksi messages: Berisi semua pesan yang dikirim antara pelapor dan pengelola.
+
+Setiap dokumen di dalam sub-koleksi messages memiliki struktur berikut:
+
+{
+  "sender": "Pengelola",
+  "text": "Terima kasih atas laporannya. Bisakah Anda memberikan detail lebih lanjut mengenai waktu kejadian?",
+  "timestamp": "2025-06-23T15:00:00.456Z"
+}
+
+Field
+
+Tipe Data
+
+Deskripsi
+
+sender
+
+string
+
+Pengirim pesan. Nilainya adalah "Pelapor" atau "Pengelola".
+
+text
+
+string
+
+Isi pesan teks yang dikirim.
+
+timestamp
+
+Firestore.Timestamp
+
+Waktu server saat pesan dikirim, untuk pengurutan.
+
+3. Alur Logika Aplikasi
+Inisialisasi: Saat aplikasi dimulai, ia mencoba terhubung ke Firebase menggunakan kredensial yang disimpan di st.secrets.
+
+Membuat Laporan: Pengguna mengisi formulir. Saat dikirim, data disimpan sebagai dokumen baru di koleksi reports dan disalin ke st.session_state untuk sementara.
+
+Komunikasi Pelapor: Pelapor masuk ke halaman "Lacak & Komunikasi" dan memasukkan ID Laporan. Aplikasi kemudian memuat riwayat chat dari chats/{ID_LAPORAN}/messages dan menampilkan antarmuka chat. Pesan baru disimpan ke lokasi yang sama dengan sender: "Pelapor".
+
+Manajemen Pengelola: Pengelola membuka halaman "Kelola Laporan". Aplikasi memuat semua laporan dari koleksi reports. Setiap laporan memiliki antarmuka chat-nya sendiri yang terhubung ke chats/{ID_LAPORAN}/messages. Pesan baru disimpan dengan sender: "Pengelola".
+
+Arsitektur ini memastikan pemisahan data yang jelas dan memungkinkan komunikasi dua arah yang aman dan anonim.
 
 Coba langsung aplikasi WBS Pro yang sudah di-deploy! Rasakan pengalaman melaporkan secara aman dan berkomunikasi secara *real-time*.
 
