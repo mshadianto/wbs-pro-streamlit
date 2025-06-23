@@ -14,12 +14,26 @@
 
 ---
 
-## 🚀 Demo Aplikasi Langsung
+## 🚀 Demo & Arsitektur
 
-Coba langsung aplikasi WBS Pro yang sudah di-deploy! Rasakan pengalaman melaporkan secara aman dan berkomunikasi secara *real-time*.
-
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_blue_light.svg)](https://wbs-pro-streamlit.streamlit.app/)
-*(Ganti dengan URL aplikasi Anda jika berbeda)*
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://wbs-pro-streamlit.streamlit.app/">
+        <img src="https://static.streamlit.io/badges/streamlit_badge_blue_light.svg" alt="Tombol Demo Langsung"/>
+        <br>
+        <strong>Coba Aplikasi Langsung</strong>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://mshadianto.github.io/wbs-pro-streamlit/arsitektur.html">
+        <img src="https://img.shields.io/badge/Lihat%20Visualisasi-Arsitektur%20Dinamis-orange.svg?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTEyIDJDNi40OCA MiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDE4Yy00LjQxIDAtOC0zLjU5LTgtOHMzLjU5LTggOC04IDggMy41OSA4IDgtMy41OSA4LTggOHptLTQgLTRoOHYtMkg4djJ6bTAtNGg4di0ySDh2MnoiLz48L3N2Zz4=" alt="Tombol Visualisasi Arsitektur"/>
+        <br>
+        <strong>Lihat Arsitektur Dinamis</strong>
+      </a>
+    </td>
+  </tr>
+</table>
 
 <br>
 
