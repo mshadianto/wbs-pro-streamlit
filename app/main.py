@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 WBS Pro – Advanced Whistleblowing System with Real-time Chat
-Version 1.5.0: Restore Full Feature Set
+Version 1.5.1: Fixed Duplicate Element ID Error
 Original Author: MS Hadianto
 Enhancements by Gemini: 2025-06-23
 """
@@ -16,7 +16,7 @@ from streamlit_option_menu import option_menu
 import os
 
 # Versi Dinamis Aplikasi
-__version__ = f"1.5.0.{datetime.date.today().strftime('%Y%m%d')}"
+__version__ = f"1.5.1.{datetime.date.today().strftime('%Y%m%d')}"
 
 # -------------------------------------------------------------
 # Inisialisasi Firebase (Hanya berjalan sekali)
@@ -76,14 +76,20 @@ def get_messages(report_id):
     messages_ref = db.collection('chats').document(report_id).collection('messages').order_by('timestamp')
     return [doc.to_dict() for doc in messages_ref.stream()]
 
-def display_chat_interface(report_id, user_role):
+def display_chat_interface(report_id, user_role, key_suffix=""):
+    """Renders the chat UI for a given report ID and user role."""
     st.markdown(f"<h4>💬 Komunikasi untuk Laporan #{report_id}</h4>", unsafe_allow_html=True)
     messages = get_messages(report_id)
     for msg in messages:
         is_user_sender = msg.get('sender') == user_role
         with st.chat_message(name=msg.get('sender', 'Unknown'), avatar="🧑‍💻" if is_user_sender else "🛡️"):
             st.write(msg.get('text', ''))
-    prompt = st.chat_input("Ketik pesan Anda di sini...")
+            
+    # ==== PERBAIKAN: Menambahkan 'key' yang unik ====
+    # Kita gabungkan report_id dengan suffix agar key selalu unik
+    unique_key = f"chat_input_{report_id}_{key_suffix}"
+    prompt = st.chat_input("Ketik pesan Anda di sini...", key=unique_key)
+    
     if prompt:
         send_message(report_id, user_role, prompt)
         st.rerun()
@@ -107,7 +113,7 @@ def show_home():
     - **Membangun Kepercayaan:** Menunjukkan komitmen organisasi terhadap lingkungan kerja yang jujur dan etis.
     - **Kepatuhan & Tata Kelola:** Memperkuat kerangka kerja *Good Corporate Governance* (GCG).
 
-    **WBS Pro adalah Solusi Anda.** Keberanian Anda untuk melapor adalah langkah pertama dalam menciptakan tata kelola korporasi yang baik.
+    **WBS Pro adalah Solusi Anda.** Keberanian Anda untuk melapor adalah langkah pertama dalam menciptakan lingkungan yang lebih baik.
     """)
     st.markdown("---")
     st.markdown("### Fitur Unggulan\n- 💬 Komunikasi Real-time\n- 🤖 Analisis Risiko AI\n- 🔒 Keamanan & Anonimitas")
@@ -175,13 +181,13 @@ def show_communication_page():
             st.session_state.active_report_id = report_id_input if report_ref.exists else None
             if not report_ref.exists: st.error("ID Laporan tidak ditemukan.")
     if st.session_state.active_report_id:
-        display_chat_interface(st.session_state.active_report_id, user_role="Pelapor")
+        # Menambahkan 'pelapor' sebagai suffix untuk memastikan keunikan
+        display_chat_interface(st.session_state.active_report_id, user_role="Pelapor", key_suffix="pelapor")
     st.markdown('</div>', unsafe_allow_html=True)
 
 def manage_reports():
     st.markdown("<h3>📂 Kelola & Tindak Lanjuti Laporan</h3>", unsafe_allow_html=True)
     
-    # Ambil laporan dari Firestore jika memungkinkan
     if db:
         reports_ref = db.collection('reports').stream()
         st.session_state.reports = [doc.to_dict() for doc in reports_ref]
@@ -206,7 +212,9 @@ def manage_reports():
                 st.markdown("**Uraian:**")
                 st.info(f"{report.get('detail', 'Tidak ada detail.')}")
             with col2:
-                if db: display_chat_interface(report['id'], user_role="Pengelola")
+                if db: 
+                    # Menambahkan 'pengelola' sebagai suffix untuk memastikan keunikan
+                    display_chat_interface(report['id'], user_role="Pengelola", key_suffix="pengelola")
 
 def show_dashboard():
     st.markdown("<h3>📊 Dashboard Analitik Laporan</h3>", unsafe_allow_html=True)
@@ -304,7 +312,8 @@ def main():
             }
         )
         st.sidebar.markdown("---")
-        st.sidebar.info(f"**Versi:** {__version__}\n\n*Dibangun oleh MS Hadianto*")
+        st.sidebar.info(f"**Versi:** {__version__}\n\n*Dibangun oleh MS Hadianto
+         [sopian.hadianto@gmail.com]*")
 
     if db is None:
         st.error("Aplikasi tidak dapat berjalan tanpa koneksi database. Harap periksa konfigurasi `secrets.toml` Anda.")
