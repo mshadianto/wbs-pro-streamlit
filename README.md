@@ -1,14 +1,14 @@
 <div align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnk3aWZnNndjeWhzcXNpbW1kYnJsaTFrbm50YWQzc3ZpdmZqaXN0eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LpB0b8I35p4A0/giphy.gif" alt="Security Animation" width="200"/>
-  <h1>🛡️ WBS Pro - Advanced Whistleblowing System 🛡️</h1>
-  <p><strong>Platform Pelaporan Pelanggaran Modern yang Aman, Anonim, dan Cerdas dengan Dukungan AI.</strong></p>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTF1a2s2YXAzZmpmbjloejZ3d2IzZ2I4bnd4ejJ4ajVwMm5pczFwMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPc07HWE3pAGAlq/giphy.gif" alt="Security Shield Animation" width="200"/>
+  <h1>🛡️ WBS Pro - Sistem Whistleblowing Modern 🛡️</h1>
+  <p><strong>Platform Pelaporan Pelanggaran Generasi Berikutnya dengan Chat Real-time, Analisis Risiko AI, dan Jaminan Anonimitas Penuh.</strong></p>
 
   <!-- Dynamic Badges -->
   <p>
-    <img src="https://img.shields.io/github/stars/mshadianto/wbs-pro-streamlit?style=for-the-badge&logo=github&color=e94560" alt="GitHub Stars"/>
-    <img src="https://img.shields.io/github/forks/mshadianto/wbs-pro-streamlit?style=for-the-badge&logo=github&color=ff6e7f" alt="GitHub Forks"/>
-    <img src="https://img.shields.io/github/last-commit/mshadianto/wbs-pro-streamlit?style=for-the-badge&logo=git&color=1a1a2e" alt="Last Commit"/>
-    <img src="https://img.shields.io/github/license/mshadianto/wbs-pro-streamlit?style=for-the-badge&color=0f3460" alt="License"/>
+    <img src="https://img.shields.io/github/stars/mshadianto/wbs-pro-streamlit?style=for-the-badge&logo=github&color=3b82f6" alt="Bintang GitHub"/>
+    <img src="https://img.shields.io/github/forks/mshadianto/wbs-pro-streamlit?style=for-the-badge&logo=github&color=60a5fa" alt="Fork GitHub"/>
+    <img src="https://img.shields.io/github/last-commit/mshadianto/wbs-pro-streamlit?style=for-the-badge&logo=git&color=1e293b" alt="Commit Terakhir"/>
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge" alt="Lisensi"/>
   </p>
 </div>
 
@@ -16,26 +16,33 @@
 
 ## 🚀 Demo Aplikasi Langsung
 
-Coba langsung aplikasi WBS Pro yang sudah di-deploy!
+Coba langsung aplikasi WBS Pro yang sudah di-deploy! Rasakan pengalaman melaporkan secara aman dan berkomunikasi secara *real-time*.
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://wbs-pro-streamlit.streamlit.app/) _(Ganti dengan URL aplikasi Anda jika berbeda)_
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_blue_light.svg)](https://wbs-pro-streamlit.streamlit.app/)
+*(Ganti dengan URL aplikasi Anda jika berbeda)*
+
+<br>
 
 <div align="center">
-  <img src="https://placehold.co/800x450/1a1a2e/e94560?text=Screenshot+Aplikasi+WBS+Pro&font=poppins" alt="App Screenshot"/>
+  <img src="https://placehold.co/800x450/f0f2f6/3b82f6?text=Screenshot+Aplikasi+WBS+Pro&font=poppins" alt="Screenshot Aplikasi WBS Pro"/>
 </div>
 
 ---
 
-## ✨ Fitur Utama
+## ✨ Tentang Proyek Ini
 
-WBS Pro dirancang dengan fitur-fitur canggih untuk memastikan pelaporan yang efektif dan aman:
+**WBS Pro** bukan sekadar sistem pelaporan biasa. Ini adalah sebuah ekosistem lengkap yang dirancang untuk membangun budaya transparansi dan integritas. Kami memahami bahwa keberanian untuk berbicara memerlukan jaminan keamanan dan kemudahan. Oleh karena itu, WBS Pro mengintegrasikan teknologi canggih untuk memberikan pengalaman pelaporan yang aman, anonim, dan interaktif.
 
-* 🤖 **AI Assistant:** Menganalisis setiap laporan untuk menghitung skor risiko secara otomatis, membantu tim investigasi memprioritaskan kasus paling mendesak.
-* 🤫 **Jaminan Anonimitas:** Pelapor dapat mengirimkan laporan tanpa mengungkapkan identitas mereka, memberikan rasa aman dan perlindungan penuh.
-* 🔒 **Keamanan Berlapis:** Semua data dienkripsi baik saat transit maupun saat disimpan untuk mencegah akses yang tidak sah.
-* 📊 **Dashboard Analitik Interaktif:** Visualisasikan tren, distribusi kasus, dan metrik penting lainnya secara *real-time* untuk pemantauan yang transparan.
-* 🎨 **UI/UX Modern & Profesional:** Antarmuka yang bersih, intuitif, dan responsif dibangun dengan *glassmorphism* untuk pengalaman pengguna terbaik.
-* ⚙️ **Manajemen Laporan:** Fitur untuk memfilter, mencari, dan memperbarui status laporan dengan mudah oleh administrator.
+Dari analisis risiko laporan menggunakan AI hingga komunikasi dua arah secara *real-time* antara pelapor dan pengelola, WBS Pro adalah solusi definitif untuk organisasi modern yang serius dalam memberantas pelanggaran.
+
+### Fitur Unggulan
+
+* 💬 **Komunikasi Real-time:** Pelapor dapat berinteraksi langsung dengan pengelola secara anonim melalui ID Laporan unik, memungkinkan klarifikasi dan tindak lanjut yang efektif.
+* 🤖 **Analisis Risiko AI:** Setiap laporan secara otomatis dianalisis untuk menghasilkan skor risiko, membantu tim investigasi memprioritaskan kasus paling krusial.
+* 🤫 **Anonimitas Absolut:** Identitas pelapor terlindungi sepenuhnya. Pelapor dapat mengirimkan laporan tanpa rasa takut akan pembalasan.
+* 📊 **Dashboard Analitik:** Pantau tren, distribusi kasus, dan metrik penting lainnya melalui dashboard yang interaktif dan mudah dipahami.
+* 🎨 **UI/UX Modern:** Antarmuka yang bersih, profesional, dan responsif dengan tema terang yang nyaman di mata.
+* 🔒 **Keamanan Terjamin:** Dibangun dengan database Firebase Firestore yang andal dan aman untuk menyimpan semua data laporan dan percakapan.
 
 ---
 
@@ -45,10 +52,11 @@ Proyek ini dibangun menggunakan teknologi Python modern yang handal:
 
 | Teknologi | Deskripsi |
 | :--- | :--- |
-| **Python** | Bahasa pemrograman utama yang digunakan untuk semua logika backend. |
-| **Streamlit** | Framework utama untuk membangun dan men-deploy antarmuka pengguna web interaktif. |
-| **Pandas** | Digunakan untuk manipulasi dan analisis data laporan yang masuk. |
-| **Streamlit Option Menu** | Untuk menciptakan navigasi sidebar yang lebih baik dan lebih menarik secara visual. |
+| **Python** | Bahasa pemrograman utama untuk semua logika aplikasi. |
+| **Streamlit** | Framework untuk membangun dan men-deploy antarmuka pengguna web interaktif dengan cepat. |
+| **Pandas** | Digunakan untuk manipulasi dan analisis data laporan di dashboard. |
+| **Firebase Firestore** | Database NoSQL dari Google yang digunakan untuk penyimpanan data laporan dan chat secara *real-time*. |
+| **Streamlit Option Menu** | Untuk menciptakan navigasi sidebar yang lebih baik dan menarik secara visual. |
 
 ---
 
@@ -62,39 +70,42 @@ Ingin menjalankan proyek ini di komputer Anda? Ikuti langkah-langkah mudah berik
     cd wbs-pro-streamlit
     ```
 
-2.  **Buat Virtual Environment** (Sangat Direkomendasikan)
+2.  **Buat & Aktifkan Virtual Environment** (Sangat Direkomendasikan)
     ```bash
-    # Untuk Windows
+    # Windows
     python -m venv venv
     venv\Scripts\activate
-
-    # Untuk macOS/Linux
+    
+    # macOS/Linux
     python3 -m venv venv
     source venv/bin/activate
     ```
 
 3.  **Install Library yang Dibutuhkan**
-    Pastikan Anda berada di direktori proyek, lalu jalankan:
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Jalankan Aplikasi Streamlit**
+4.  **Konfigurasi Kredensial Firebase (PENTING!)**
+    Aplikasi ini membutuhkan koneksi ke Firebase.
+    * Di dalam folder proyek Anda, buat folder baru bernama **`.streamlit`**.
+    * Di dalam folder `.streamlit`, buat file baru bernama **`secrets.toml`**.
+    * Buka file tersebut dan isi dengan kredensial dari file JSON yang Anda unduh dari Firebase, seperti contoh di bawah:
+        ```toml
+        [firebase_credentials]
+        type = "service_account"
+        project_id = "NAMA_PROYEK_ANDA"
+        private_key_id = "ID_KUNCI_PRIVAT_ANDA"
+        private_key = """-----BEGIN PRIVATE KEY-----\nKUNCI_PRIVAT_PANJANG_ANDA_DISINI\n-----END PRIVATE KEY-----\n"""
+        client_email = "EMAIL_SERVICE_ACCOUNT_ANDA"
+        # ...dan seterusnya sesuai isi file JSON Anda.
+        ```
+
+5.  **Jalankan Aplikasi Streamlit**
     ```bash
     streamlit run app.py
     ```
     Aplikasi akan secara otomatis terbuka di browser default Anda!
-
----
-
-## 📂 Struktur Proyek
-
-
-.
-├── app.py              # File utama aplikasi Streamlit
-├── requirements.txt      # Daftar library Python yang dibutuhkan
-└── README.md             # Anda sedang membacanya :)
-
 
 ---
 
@@ -111,11 +122,10 @@ Kontribusi Anda sangat kami hargai! Jika Anda memiliki ide untuk perbaikan atau 
 
 ## 📄 Lisensi
 
-Proyek ini dilisensikan di bawah **MIT License**. Lihat file `LICENSE` untuk detail lebih lanjut.
+Proyek ini dilisensikan di bawah **MIT License**.
 
 ---
 
 <div align="center">
-  <p><strong>Dikembangkan oleh MS Hadianto</strong></p>
-  <p>✨ Terima kasih sudah berkunjung! ✨</p>
+  <p><strong>Dibangun dengan ❤️ oleh MS Hadianto untuk Tata Kelola Korporasi Indonesia yang Lebih Baik Lagi</strong></p>
 </div>
