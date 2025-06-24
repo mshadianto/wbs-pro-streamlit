@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 WBS Pro – Advanced Whistleblowing System with Real-time Chat
-Version 1.5.1: Fixed Duplicate Element ID Error
+Version 1.5.2: Fixed Indentation and Page Config Errors
 Original Author: MS Hadianto
-Enhancements by Gemini: 2025-06-23
+Enhancements by Gemini: 2025-06-24
 """
 
 import streamlit as st
@@ -15,31 +15,10 @@ from firebase_admin import credentials, firestore
 from streamlit_option_menu import option_menu
 import os
 
-# Versi Dinamis Aplikasi
-__version__ = f"1.5.1.{datetime.date.today().strftime('%Y%m%d')}"
-
 # -------------------------------------------------------------
-# Inisialisasi Firebase (Hanya berjalan sekali)
+# Konfigurasi Halaman & CSS (WAJIB JADI YANG PERTAMA)
 # -------------------------------------------------------------
-@st.cache_resource
-def initialize_firebase():
-    """Initializes Firebase Admin SDK using Streamlit secrets."""
-    try:
-        creds_dict = st.secrets["firebase_credentials"].to_dict()
-        creds_dict['private_key'] = creds_dict['private_key'].replace('\\n', '\n')
-        cred = credentials.Certificate(creds_dict)
-        if not firebase_admin._apps:
-            firebase_admin.initialize_app(cred)
-    except Exception as e:
-        st.error(f"Gagal koneksi ke Firebase: {e}")
-        return None
-    return firestore.client()
-
-db = initialize_firebase()
-
-# -------------------------------------------------------------
-# Konfigurasi Halaman & CSS
-# -------------------------------------------------------------
+# Aturan Streamlit: set_page_config() harus menjadi perintah st.* pertama.
 st.set_page_config(
     page_title="WBS Pro - Sistem Whistleblowing",
     page_icon="🛡️",
@@ -48,9 +27,9 @@ st.set_page_config(
 )
 
 def load_css():
+    """Memuat CSS kustom untuk tampilan aplikasi."""
     st.markdown("""
     <style>
-        /* ... CSS tidak berubah ... */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         body { font-family: 'Poppins', sans-serif; background-color: #f0f2f6; }
         .main { background-color: #f0f2f6; color: #1e293b; }
@@ -63,33 +42,68 @@ def load_css():
     </style>
     """, unsafe_allow_html=True)
 
+# Memuat CSS di awal
+load_css()
+
+# Versi Dinamis Aplikasi
+__version__ = f"1.5.2.{datetime.date.today().strftime('%Y%m%d')}"
+
+# -------------------------------------------------------------
+# Inisialisasi Firebase (Hanya berjalan sekali)
+# -------------------------------------------------------------
+@st.cache_resource
+def initialize_firebase():
+    """Menginisialisasi Firebase Admin SDK menggunakan Streamlit secrets."""
+    try:
+        # Cek apakah aplikasi sudah diinisialisasi
+        if not firebase_admin._apps:
+            # Ambil kredensial dari Streamlit secrets
+            creds_dict = st.secrets["firebase_credentials"].to_dict()
+            # Ganti escape character '\n' dengan newline character asli
+            creds_dict['private_key'] = creds_dict['private_key'].replace('\\n', '\n')
+            cred = credentials.Certificate(creds_dict)
+            firebase_admin.initialize_app(cred)
+        # Kembalikan instance client Firestore
+        return firestore.client()
+    except Exception as e:
+        # Tampilkan error di console atau log, tapi untuk UI akan ditangani di main()
+        print(f"Gagal koneksi ke Firebase: {e}")
+        return None
+
+# Panggil fungsi inisialisasi
+db = initialize_firebase()
+
 # -------------------------------------------------------------
 # Fungsi-fungsi Terkait Chat
 # -------------------------------------------------------------
 def send_message(report_id, sender, text):
+    """Mengirim pesan ke koleksi chat di Firestore."""
     if db is None or not text.strip(): return
     chat_ref = db.collection('chats').document(report_id).collection('messages')
     chat_ref.add({'sender': sender, 'text': text, 'timestamp': firestore.SERVER_TIMESTAMP})
 
 def get_messages(report_id):
+    """Mengambil semua pesan untuk sebuah laporan dari Firestore."""
     if db is None: return []
     messages_ref = db.collection('chats').document(report_id).collection('messages').order_by('timestamp')
     return [doc.to_dict() for doc in messages_ref.stream()]
 
 def display_chat_interface(report_id, user_role, key_suffix=""):
-    """Renders the chat UI for a given report ID and user role."""
+    """Merender antarmuka chat untuk ID laporan dan peran pengguna tertentu."""
     st.markdown(f"<h4>💬 Komunikasi untuk Laporan #{report_id}</h4>", unsafe_allow_html=True)
     messages = get_messages(report_id)
     for msg in messages:
+        # Tentukan avatar berdasarkan pengirim pesan
         is_user_sender = msg.get('sender') == user_role
-        with st.chat_message(name=msg.get('sender', 'Unknown'), avatar="🧑‍💻" if is_user_sender else "🛡️"):
+        avatar_icon = "🧑‍💻" if is_user_sender else "🛡️"
+        with st.chat_message(name=msg.get('sender', 'Unknown'), avatar=avatar_icon):
             st.write(msg.get('text', ''))
-            
-    # ==== PERBAIKAN: Menambahkan 'key' yang unik ====
-    # Kita gabungkan report_id dengan suffix agar key selalu unik
+
+    # PERBAIKAN: Menggunakan key yang unik untuk setiap chat input
+    # untuk menghindari Streamlit's DuplicateWidgetID error.
     unique_key = f"chat_input_{report_id}_{key_suffix}"
     prompt = st.chat_input("Ketik pesan Anda di sini...", key=unique_key)
-    
+
     if prompt:
         send_message(report_id, user_role, prompt)
         st.rerun()
@@ -98,11 +112,11 @@ def display_chat_interface(report_id, user_role, key_suffix=""):
 # Fungsi Halaman
 # -------------------------------------------------------------
 def show_home():
+    """Menampilkan halaman beranda."""
     st.markdown("<h1>🛡️ Selamat Datang di WBS Pro</h1>", unsafe_allow_html=True)
     st.markdown("#### Platform Pelaporan Pelanggaran yang Aman, Anonim, dan Cerdas.")
-    
+
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    
     st.markdown("""
     ### Memahami Whistleblowing System (WBS)
     
@@ -117,22 +131,22 @@ def show_home():
     """)
     st.markdown("---")
     st.markdown("### Fitur Unggulan\n- 💬 Komunikasi Real-time\n- 🤖 Analisis Risiko AI\n- 🔒 Keamanan & Anonimitas")
-    
     st.markdown('</div>', unsafe_allow_html=True)
     
     if db:
         st.success("Koneksi ke Database Real-time berhasil!", icon="✅")
 
-
 def create_report():
+    """Menampilkan form untuk membuat laporan baru."""
     st.markdown("<h3>📝 Buat Laporan Baru</h3>", unsafe_allow_html=True)
-    st.info("Setelah mengirim, Anda akan mendapatkan ID Laporan untuk berkomunikasi.")
+    st.info("Setelah mengirim, Anda akan mendapatkan ID Laporan unik untuk melacak dan berkomunikasi dengan pengelola.")
+    
     st.markdown('<div class="card">', unsafe_allow_html=True)
     with st.form("report_form"):
         col1, col2 = st.columns(2)
 
         with col1:
-            nama = st.text_input("Nama Pelapor", placeholder="Kosongkan untuk anonim")
+            nama = st.text_input("Nama Pelapor", placeholder="Kosongkan untuk tetap anonim")
             jenis = st.selectbox(
                 "Jenis Pelanggaran",
                 ["Korupsi", "Penyalahgunaan Wewenang", "Pelanggaran Etika", "Penipuan (Fraud)", "Pelecehan", "Lainnya"],
@@ -149,7 +163,7 @@ def create_report():
         submitted = st.form_submit_button("📤 Kirim Laporan Secara Aman")
         if submitted:
             report_id = str(uuid.uuid4())[:8].upper()
-            report = {
+            report_data = {
                 "id": report_id,
                 "nama": nama or "Anonim",
                 "jenis_pelanggaran": jenis,
@@ -163,34 +177,53 @@ def create_report():
                 "risk_score": calculate_risk_score(detail),
             }
             if db:
-                db.collection('reports').document(report_id).set(report)
-                st.session_state.reports.append(report)
-            st.success(f"✅ Laporan berhasil dikirim! ID Laporan Anda: **{report_id}**")
-            st.balloons()
+                db.collection('reports').document(report_id).set(report_data)
+                # Tambahkan laporan baru ke session state agar UI update
+                st.session_state.reports.append(report_data)
+                st.success(f"✅ Laporan berhasil dikirim! ID Laporan Anda: **{report_id}**")
+                st.info("Harap simpan ID ini di tempat aman untuk melacak status laporan Anda.", icon="ℹ️")
+                st.balloons()
+            else:
+                 st.error("Gagal mengirim laporan karena tidak ada koneksi database.")
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 def show_communication_page():
+    """Menampilkan halaman untuk melacak laporan dan berkomunikasi."""
     st.markdown("<h3> Lacak & Komunikasi</h3>", unsafe_allow_html=True)
     st.markdown('<div class="card">', unsafe_allow_html=True)
+
     if 'active_report_id' not in st.session_state:
         st.session_state.active_report_id = None
+
     report_id_input = st.text_input("Masukkan ID Laporan Anda:", placeholder="Contoh: A1B2C3D4").upper()
-    if report_id_input:
-        if db:
+    
+    if st.button("Cari Laporan", key="search_report_btn"):
+        if report_id_input and db:
             report_ref = db.collection('reports').document(report_id_input).get()
-            st.session_state.active_report_id = report_id_input if report_ref.exists else None
-            if not report_ref.exists: st.error("ID Laporan tidak ditemukan.")
+            if report_ref.exists:
+                st.session_state.active_report_id = report_id_input
+            else:
+                st.session_state.active_report_id = None
+                st.error("ID Laporan tidak ditemukan. Periksa kembali ID Anda.")
+        else:
+            st.warning("Silakan masukkan ID Laporan.")
+
     if st.session_state.active_report_id:
-        # Menambahkan 'pelapor' sebagai suffix untuk memastikan keunikan
+        # Menambahkan 'pelapor' sebagai suffix untuk memastikan keunikan key
         display_chat_interface(st.session_state.active_report_id, user_role="Pelapor", key_suffix="pelapor")
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 def manage_reports():
+    """Menampilkan halaman untuk pengelola laporan."""
     st.markdown("<h3>📂 Kelola & Tindak Lanjuti Laporan</h3>", unsafe_allow_html=True)
     
+    # Refresh data dari Firestore setiap kali halaman ini dikunjungi
     if db:
         reports_ref = db.collection('reports').stream()
-        st.session_state.reports = [doc.to_dict() for doc in reports_ref]
+        # Urutkan laporan dari yang terbaru
+        st.session_state.reports = sorted([doc.to_dict() for doc in reports_ref], key=lambda x: x['timestamp'], reverse=True)
 
     if not st.session_state.get('reports'):
         st.info("Belum ada laporan untuk dikelola.")
@@ -212,23 +245,34 @@ def manage_reports():
                 st.markdown("**Uraian:**")
                 st.info(f"{report.get('detail', 'Tidak ada detail.')}")
             with col2:
-                if db: 
-                    # Menambahkan 'pengelola' sebagai suffix untuk memastikan keunikan
-                    display_chat_interface(report['id'], user_role="Pengelola", key_suffix="pengelola")
+                if db:
+                    # Menambahkan 'pengelola' sebagai suffix untuk memastikan keunikan key
+                    display_chat_interface(report['id'], user_role="Pengelola", key_suffix=f"pengelola_{report['id']}")
 
 def show_dashboard():
+    """Menampilkan dashboard analitik laporan."""
     st.markdown("<h3>📊 Dashboard Analitik Laporan</h3>", unsafe_allow_html=True)
 
-    if db:
-        reports_ref = db.collection('reports').stream()
-        st.session_state.reports = [doc.to_dict() for doc in reports_ref]
+    if not st.session_state.get('reports'):
+        # Coba muat data jika kosong
+        if db:
+            reports_ref = db.collection('reports').stream()
+            st.session_state.reports = [doc.to_dict() for doc in reports_ref]
 
     if not st.session_state.get('reports'):
-        st.info("Belum ada laporan yang masuk.")
+        st.info("Belum ada data laporan untuk ditampilkan di dashboard.")
         return
 
     df = pd.DataFrame(st.session_state.reports)
     df['tanggal'] = pd.to_datetime(df['tanggal'])
+
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Laporan", len(df))
+    col2.metric("Laporan 'Baru'", len(df[df['status'] == 'Baru']))
+    col3.metric("Rata-rata Skor Risiko", f"{df['risk_score'].mean():.2f}%")
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
@@ -246,8 +290,8 @@ def show_dashboard():
     
     st.markdown('</div>', unsafe_allow_html=True)
 
-
 def show_help():
+    """Menampilkan halaman panduan dan bantuan."""
     st.markdown("<h3>ℹ️ Panduan & Bantuan</h3>", unsafe_allow_html=True)
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown("""
@@ -258,15 +302,15 @@ def show_help():
     - Isi formulir selengkap mungkin. Detail yang akurat membantu proses investigasi.
     - Anda bisa mengosongkan nama untuk tetap **100% anonim**.
     - Unggah bukti jika ada untuk memperkuat laporan Anda.
-    - Setelah mengirim, **simpan ID Laporan** Anda.
+    - Setelah mengirim, **simpan ID Laporan** Anda. ID ini sangat penting.
 
     **2. Berkomunikasi Secara Anonim**
     - Buka halaman **Lacak & Komunikasi**.
     - Masukkan ID Laporan Anda untuk membuka ruang obrolan aman dengan pengelola.
     
     **3. Kebijakan Keamanan & Privasi**
-    - **Enkripsi Data:** Semua data, dari laporan hingga bukti, dienkripsi.
-    - **Perlindungan Identitas:** Kami tidak menyimpan informasi identitas apa pun.
+    - **Enkripsi Data:** Semua data, dari laporan hingga bukti, dienkripsi saat transit dan saat disimpan.
+    - **Perlindungan Identitas:** Kami tidak melacak alamat IP atau informasi identitas lainnya. Nama Anda opsional.
     - **Akses Terbatas:** Hanya tim investigasi yang berwenang yang dapat mengakses detail laporan.
 
     ---
@@ -276,27 +320,38 @@ def show_help():
     """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-
-def calculate_risk_score(detail): 
-    score = 20
+def calculate_risk_score(detail):
+    """Menghitung skor risiko berdasarkan kata kunci dalam detail laporan."""
+    score = 20  # Skor dasar
     detail_lower = detail.lower()
     high_risk = ["korupsi", "suap", "pencucian uang", "kerugian negara", "fraud", "penggelapan", "ilegal"]
     medium_risk = ["penyalahgunaan wewenang", "konflik kepentingan", "pelanggaran etika", "intimidasi", "pelecehan"]
-    score += sum(25 for kw in high_risk if kw in detail_lower)
-    score += sum(10 for kw in medium_risk if kw in detail_lower)
-    if len(detail_lower) > 500: score += 15
-    elif len(detail_lower) > 200: score += 10
-    return min(score, 100)
+    
+    # Tambah skor berdasarkan kata kunci risiko tinggi
+    if any(kw in detail_lower for kw in high_risk):
+        score += 40
+    # Tambah skor berdasarkan kata kunci risiko sedang
+    elif any(kw in detail_lower for kw in medium_risk):
+        score += 25
+
+    # Tambah skor berdasarkan panjang detail
+    if len(detail_lower) > 500:
+        score += 15
+    elif len(detail_lower) > 200:
+        score += 10
+        
+    return min(score, 100) # Pastikan skor maksimal 100
 
 # -------------------------------------------------------------
 # Router & Eksekusi Utama
 # -------------------------------------------------------------
 def main():
+    """Fungsi utama untuk menjalankan aplikasi Streamlit."""
+    
+    # Inisialisasi session_state jika belum ada
     if "reports" not in st.session_state:
         st.session_state.reports = []
     
-    load_css()
-
     with st.sidebar:
         st.markdown("<h2 style='text-align: center; color: #0f172a;'>🛡️ WBS Pro</h2>", unsafe_allow_html=True)
         selected = option_menu(
@@ -314,16 +369,24 @@ def main():
         st.sidebar.markdown("---")
         st.sidebar.info(f"**Versi:** {__version__}\n\n*Dibangun oleh MS Hadi - Email: [sopian.hadianto@gmail.com]*")
 
+    # Guard clause jika koneksi Firebase gagal
     if db is None:
         st.error("Aplikasi tidak dapat berjalan tanpa koneksi database. Harap periksa konfigurasi `secrets.toml` Anda.")
         return
 
-    if selected == "Beranda": show_home()
-    elif selected == "Buat Laporan": create_report()
-    elif selected == "Lacak & Komunikasi": show_communication_page()
-    elif selected == "Dashboard": show_dashboard()
-    elif selected == "Kelola Laporan": manage_reports()
-    elif selected == "Bantuan": show_help()
+    # Routing Halaman
+    if selected == "Beranda":
+        show_home()
+    elif selected == "Buat Laporan":
+        create_report()
+    elif selected == "Lacak & Komunikasi":
+        show_communication_page()
+    elif selected == "Dashboard":
+        show_dashboard()
+    elif selected == "Kelola Laporan":
+        manage_reports()
+    elif selected == "Bantuan":
+        show_help()
 
 if __name__ == "__main__":
     main()
