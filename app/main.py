@@ -312,8 +312,7 @@ def main():
             }
         )
         st.sidebar.markdown("---")
-        st.sidebar.info(f"**Versi:** {__version__}\n\n*Dibangun oleh MS Hadi*")
-         [sopian.hadianto@gmail.com]*")
+        st.sidebar.info(f"**Versi:** {__version__}\n\n*Dibangun oleh MS Hadi - Email: [sopian.hadianto@gmail.com]*")
 
     if db is None:
         st.error("Aplikasi tidak dapat berjalan tanpa koneksi database. Harap periksa konfigurasi `secrets.toml` Anda.")
