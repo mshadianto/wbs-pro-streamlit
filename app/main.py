@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 WBS Pro – Advanced Whistleblowing System with Real-time Chat
 Version 1.8.1: Fixed Landing Page Rendering and Login Logic
